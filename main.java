@@ -7,7 +7,7 @@ public class main {
     private static JPanel cardsPanel;
 
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws Exception{
         //Use Swing and CardLayout to to manage different panels for one screen.
         JFrame frame = new JFrame("Banking System");
 
