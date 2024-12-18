@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class main {
+public class main extends user{
 
     private static CardLayout cardLayout;
     private static JPanel cardsPanel;
@@ -21,15 +21,25 @@ public class main {
         JPanel loginPanel = createLoginPanel();
         JPanel newUserPanel = createNewUserPanel();
         JPanel mainMenuPanel = createMainMenuPanel();
-        JPanel transactions = createTransactionsPanel();
+        JPanel transactionsPanel = createTransactionsPanel();
+
+        JPanel balance = createBalancePanel();
+        JPanel deposit = createDepositPanel();
+        JPanel withdraw = createWithdrawPanel();
 
         cardsPanel.add(loginPanel, "Login Screen");
         cardsPanel.add(newUserPanel, "New User Screen");
         cardsPanel.add(mainMenuPanel, "Main Menu Screen");
-        cardsPanel.add(transactions, "Transaction Screen");
+        cardsPanel.add(transactionsPanel, "Transaction Screen");
+        cardsPanel.add(balance, "Balance Screen");
+        cardsPanel.add(deposit, "Deposit Screen");
+        cardsPanel.add(withdraw, "Withdraw Screen");
 
         frame.add(cardsPanel);
         frame.setVisible(true);
+
+        bank obj = new bank();
+        
     }
 
     private static JPanel createLoginPanel(){
@@ -119,13 +129,13 @@ public class main {
         JButton logoutButton = new JButton("Logout");
 
         checkButton.addActionListener(e ->{
-            JOptionPane.showMessageDialog(null, "Balance: ");
+            cardLayout.show(cardsPanel, "Balance Screen");
         });
         depositButton.addActionListener(e ->{
-            JOptionPane.showMessageDialog(null,"Deposited: ");
+            cardLayout.show(cardsPanel, "Deposit Screen");
         });
         withdrawButton.addActionListener(e ->{
-            JOptionPane.showMessageDialog(null, "Withdrew: ");
+            cardLayout.show(cardsPanel, "Withdraw Screen");
         });
         transactionHistory.addActionListener(e->{
             cardLayout.show(cardsPanel, "Transaction Screen");
@@ -159,4 +169,84 @@ public class main {
 
         return transactionsPanel;
     }
+
+    private static JPanel createBalancePanel(){
+        JPanel balancePanel = new JPanel();
+
+        JLabel title = new JLabel("Balance:");
+        //Process for showing Balance
+        JButton returntoMain = new JButton("Back to Main Menu");
+
+        returntoMain.addActionListener(e ->{
+            cardLayout.show(cardsPanel, "Main Menu Screen");
+        });
+
+        balancePanel.add(title);
+        balancePanel.add(returntoMain);
+
+
+        return balancePanel;
+    }
+
+    private static JPanel createDepositPanel(){
+        JPanel depositPanel = new JPanel();
+
+        JLabel title = new JLabel("How much to Deposit");
+
+        JTextField entry = new JTextField(20);
+
+        JButton entryButton = new JButton("Deposit");
+
+        entryButton.addActionListener(e ->{
+            double amount = Double.parseDouble(entry.getText());
+            account obj = new account();
+            obj.deposit(getUserId(), getBalance(), amount);
+        });
+
+        JButton returntoMain = new JButton("Back to Main Menu");
+
+        returntoMain.addActionListener(e ->{
+            cardLayout.show(cardsPanel, "Main Menu Screen");
+        });
+
+        depositPanel.add(title);
+        depositPanel.add(entry);
+        depositPanel.add(entryButton);
+        depositPanel.add(returntoMain);
+
+        return depositPanel;
+
+    }
+
+    private static JPanel createWithdrawPanel(){
+        JPanel withdrawPanel = new JPanel();
+
+        JLabel title = new JLabel("How much to Withdraw");
+
+        JTextField entry = new JTextField(20);
+
+        JButton entryButton = new JButton("Withdraw");
+
+        entryButton.addActionListener(e ->{
+            double amount = Double.parseDouble(entry.getText());
+            account obj = new account();
+            obj.withdraw(getUserId(), getBalance(), amount);
+        });
+
+        JButton returntoMain = new JButton("Back to Main Menu");
+
+        returntoMain.addActionListener(e ->{
+            cardLayout.show(cardsPanel, "Main Menu Screen");
+        });
+
+        withdrawPanel.add(title);
+        withdrawPanel.add(entry);
+        withdrawPanel.add(entryButton);
+        withdrawPanel.add(returntoMain);
+
+        return withdrawPanel;
+
+    }
+
+    
 }

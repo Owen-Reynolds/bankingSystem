@@ -1,4 +1,15 @@
 public class user {
     //Attributes: User ID, name, account number, balance, login credentials.
-    //Methods: Deposit(), Withdraw(), Transfer(), CheckBalance(), ViewTransactionHistory().
+    
+    public static String getUserId(){
+        //Access the User id
+        String userId = "";
+        return userId;
+    }
+
+    public static double getBalance(){
+        double balance = 0;
+        return balance;
+    }
+
 }
