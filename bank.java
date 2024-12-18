@@ -9,6 +9,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import java.util.UUID;
 
+import javax.swing.JOptionPane;
+
 public class bank {
     //Handles user authentication, account creation, and manages user accounts.
     //Methods: CreateUser(), AuthenticateUser(), ListAccounts(), FindAccountById().
@@ -30,38 +32,52 @@ public class bank {
         return Base64.getEncoder().encodeToString(hash);
     }
 
+
+    //Creates new Account user, sets their balance to 0, and sends data to json file as json string
     public void createUser(String username, String password) throws Exception{
+        JSONArray users = loadArray();
+        //Checks if new user already has username or not
+
         String salt = generateSalt();
         String hashedPassword = hashPassword(password, salt);
         String userId = generateUser();
         double balance = 0;
+          
+        JSONObject newUser = new JSONObject();
+
+        newUser.put("username", username);
+        newUser.put("password", hashedPassword);
+        newUser.put("salt", salt);
+        newUser.put("ID", userId);
+        newUser.put("balance", balance);
         
-        JSONArray users = loadArray();
-
-        JSONObject user = new JSONObject();
-
-        user.put("username", username);
-        user.put("password", hashedPassword);
-        user.put("salt", salt);
-        user.put("ID", userId);
-        user.put("balance", balance);
+        users.add(newUser); 
         
-        users.add(user);  
-
         saveData(users);
     }
+    
+
+    public boolean checkDuplicate(JSONArray users, String username){
+        for(Object obj: users){
+            JSONObject user = (JSONObject) obj;
+            if(user.get("username").equals(username)){
+               return true;
+            }
+        } 
+        return false;
+    }
+
 
     private void saveData(JSONArray array) {
         try (PrintWriter pw = new PrintWriter("accounts.json")) {
-            pw.println(array.toJSONString());
+            pw.println(array);
             System.out.println("Data successfully saved to accounts.json");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
 
-    private JSONArray loadArray() throws Exception {
+    public JSONArray loadArray() throws Exception {
         Path path = Path.of("accounts.json");
 
         String content = Files.readString(path).trim();

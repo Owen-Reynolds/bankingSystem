@@ -58,6 +58,7 @@ public class main extends user{
         loginButton.addActionListener(e ->{
             String username = usernameField.getText();
             String password = new String(passwordField.getPassword());
+
             if(username.equals("user") && password.equals("password")){
                 cardLayout.show(cardsPanel, "Main Menu Screen");
             }else{
@@ -104,11 +105,17 @@ public class main extends user{
             else{
                 bank newUser = new bank();
                 try {
-                    newUser.createUser(newUsername, newPassword);
+                    if(newUser.checkDuplicate(newUser.loadArray(), newUsername)){
+                        JOptionPane.showMessageDialog(null, "Username already exists. Please try again.");
+                        return;
+                    }
+                    else {
+                        newUser.createUser(newUsername, newPassword);
+                        JOptionPane.showMessageDialog(null, "Account created successfully.");
+                    }
                 } catch (Exception e1) {
                     e1.printStackTrace();
                 }
-            JOptionPane.showMessageDialog(null, "Account Created!");
             
             cardLayout.show(cardsPanel, "Main Menu Screen");
             }
