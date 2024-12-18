@@ -52,7 +52,7 @@ public class bank {
         newUser.put("balance", balance);
         
         users.add(newUser); 
-        
+
         saveData(users);
     }
     

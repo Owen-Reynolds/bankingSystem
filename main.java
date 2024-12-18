@@ -59,10 +59,18 @@ public class main extends user{
             String username = usernameField.getText();
             String password = new String(passwordField.getPassword());
 
-            if(username.equals("user") && password.equals("password")){
-                cardLayout.show(cardsPanel, "Main Menu Screen");
-            }else{
-                JOptionPane.showMessageDialog(null, "Incorrect Login Information");
+            bank obj = new bank();
+            account checkUser = new account();
+
+            try {
+                if(checkUser.checkExistence(obj.loadArray(), username, password)){
+                    JOptionPane.showMessageDialog(null, "Login Successful");
+                    cardLayout.show(cardsPanel, "Main Menu Screen");
+                }else{
+                    JOptionPane.showMessageDialog(null, "Incorrect Login Information");
+                }
+            } catch (Exception e1) {
+                e1.printStackTrace();
             }
         });
         
