@@ -7,7 +7,7 @@ public class account extends bank {
 
 
     //Checks existance of user in json file
-    public boolean checkExistence(JSONArray array, String username, String password) throws Exception{
+    public String checkExistence(JSONArray array, String username, String password) throws Exception{
         for(Object obj: array){
             JSONObject user = (JSONObject) obj;
             if(username.equals(user.get("username"))){
@@ -17,27 +17,20 @@ public class account extends bank {
 
                 String hashedPassword = hashPassword(password, storedSalt);
 
+                String userId = (String) user.get("ID");
+
                 if(storedHashedPassword.equals(hashedPassword)){
-                    //User exists
-                    return true;
+                    //User exists, return user ID
+                    return userId;
                 }   
                 else{
                     System.out.println("Incorrect password");
-                    return false;
+                    return null;
                 }
             }
         }
-        return false;
+        return null;
     }
 
-
-
-    public void deposit(String userId, double balance, double amount){
-        balance += amount;
-    }
-
-    public void withdraw(String userId, double balance, double amount){
-        balance -= amount;
-    }
 
 }

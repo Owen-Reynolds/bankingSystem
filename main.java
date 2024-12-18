@@ -63,9 +63,12 @@ public class main extends user{
             account checkUser = new account();
 
             try {
-                if(checkUser.checkExistence(obj.loadArray(), username, password)){
+                if(checkUser.checkExistence(obj.loadArray(), username, password) != null){
                     JOptionPane.showMessageDialog(null, "Login Successful");
                     cardLayout.show(cardsPanel, "Main Menu Screen");
+
+                    System.out.println(checkUser.checkExistence(obj.loadArray(), username, password));
+
                 }else{
                     JOptionPane.showMessageDialog(null, "Incorrect Login Information");
                 }
@@ -221,7 +224,7 @@ public class main extends user{
         entryButton.addActionListener(e ->{
             double amount = Double.parseDouble(entry.getText());
             account obj = new account();
-            obj.deposit(getUserId(), getBalance(), amount);
+            //obj.deposit(getUserId(), getBalance(), amount);
         });
 
         JButton returntoMain = new JButton("Back to Main Menu");
@@ -251,7 +254,7 @@ public class main extends user{
         entryButton.addActionListener(e ->{
             double amount = Double.parseDouble(entry.getText());
             account obj = new account();
-            obj.withdraw(getUserId(), getBalance(), amount);
+            //obj.withdraw(getUserId(), getBalance(), amount);
         });
 
         JButton returntoMain = new JButton("Back to Main Menu");
