@@ -47,21 +47,57 @@ public class bank {
         user.put("balance", balance);
         
         users.add(user);  
+
+        saveData(users);
     }
 
-    private JSONArray loadArray() throws Exception{
-        Path path = Path.of("accounts.json");
-        JSONParser parser = new JSONParser();
-
-        String content = Files.readString(path);
-        try{
-            return (JSONArray) parser.parse(content);
-        }catch(Exception e){
-            throw new Exception("Error parsing JSON data from accounts.JSON");
+    private void saveData(JSONArray array) {
+        try (PrintWriter pw = new PrintWriter("accounts.json")) {
+            pw.println(array.toJSONString());
+            System.out.println("Data successfully saved to accounts.json");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        
     }
+    
 
+    private JSONArray loadArray() throws Exception {
+        Path path = Path.of("accounts.json");
+
+        String content = Files.readString(path).trim();
+    
+        JSONParser parser = new JSONParser();
+        try {
+            Object parsedContent = parser.parse(content);
+    
+            //Ensure the parsed content is a JSONArray
+            if (parsedContent instanceof JSONArray) {
+                return (JSONArray) parsedContent;
+            } else {
+                System.out.println("File does not contain a JSON array. Overwriting with a new array.");
+                return new JSONArray();
+            }
+        } catch (Exception e) {
+            throw new Exception("Error parsing JSON data from accounts.json: " + e.getMessage());
+        }
+    }
+    
+    private void initializeFile() throws IOException {
+        Path path = Path.of("accounts.json");
+        if (!Files.exists(path) || Files.readString(path).trim().isEmpty()) {
+            System.out.println("Creating or fixing accounts.json file...");
+            Files.writeString(path, "[]"); //Write an empty JSON array to the file
+        }
+    }
+    
+    public bank() {
+        try {
+            initializeFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
     public String generateUser(){
         UUID uuid = UUID.randomUUID();
 

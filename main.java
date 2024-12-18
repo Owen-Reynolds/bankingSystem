@@ -102,6 +102,12 @@ public class main extends user{
                 cardLayout.show(cardsPanel, "New User Screen");
             }
             else{
+                bank newUser = new bank();
+                try {
+                    newUser.createUser(newUsername, newPassword);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
             JOptionPane.showMessageDialog(null, "Account Created!");
             
             cardLayout.show(cardsPanel, "Main Menu Screen");
