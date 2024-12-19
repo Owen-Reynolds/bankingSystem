@@ -1,10 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class main extends user{
+public class main extends bank{
 
     private static CardLayout cardLayout;
     private static JPanel cardsPanel;
+
+    public static String userId;
+    public static double balance;
 
 
     public static void main(String[] args) throws Exception{
@@ -67,7 +70,8 @@ public class main extends user{
                     JOptionPane.showMessageDialog(null, "Login Successful");
                     cardLayout.show(cardsPanel, "Main Menu Screen");
 
-                    System.out.println(checkUser.checkExistence(obj.loadArray(), username, password));
+                    String userId = (checkUser.checkExistence(obj.loadArray(), username, password));
+                    balance = obj.getBalance(userId);
 
                 }else{
                     JOptionPane.showMessageDialog(null, "Incorrect Login Information");
@@ -193,12 +197,16 @@ public class main extends user{
 
         return transactionsPanel;
     }
-
-    private static JPanel createBalancePanel(){
+    
+    private static JPanel createBalancePanel() throws Exception{
         JPanel balancePanel = new JPanel();
 
-        JLabel title = new JLabel("Balance:");
+        bank obj = new bank();
+
+        JLabel title = new JLabel("Balance: " + obj.getBalance(userId));
         //Process for showing Balance
+
+
         JButton returntoMain = new JButton("Back to Main Menu");
 
         returntoMain.addActionListener(e ->{
@@ -223,8 +231,19 @@ public class main extends user{
 
         entryButton.addActionListener(e ->{
             double amount = Double.parseDouble(entry.getText());
-            account obj = new account();
-            //obj.deposit(getUserId(), getBalance(), amount);
+            transaction obj = new transaction();
+            bank bank = new bank();
+            try {
+                balance = obj.deposit(bank.getBalance(userId), amount);
+                bank.updateBalance(userId, balance);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+            try {
+                JOptionPane.showMessageDialog(null, "Deposit Successful New Balance: "  + bank.getBalance(userId));
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
         });
 
         JButton returntoMain = new JButton("Back to Main Menu");

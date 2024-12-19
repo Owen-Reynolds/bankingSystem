@@ -121,4 +121,27 @@ public class bank {
 
         return userId;
     }
+
+    public double getBalance(String userId) throws Exception{
+        JSONArray users = loadArray();
+        for(Object obj: users){
+            JSONObject user = (JSONObject) obj;
+            if(user.get("ID").equals(userId)){
+                double balance = (double) user.get("balance");
+                return balance;
+            }
+        }
+        return 0;
+    }
+
+    public void updateBalance(String userId, double newBalance) throws Exception{
+        JSONArray users = loadArray();
+        for(Object obj: users){
+            JSONObject user = (JSONObject) obj;
+            if(user.get("ID").equals(userId)){
+                user.put("balance", newBalance);
+                saveData(users);
+            }
+        }
+    }
 }
