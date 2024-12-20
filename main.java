@@ -235,9 +235,6 @@ public class main extends bank{
             bank bank = new bank();
             try {
                 double newBalance = obj.deposit(bank.getBalance(userId), amount);
-                System.out.println(bank.getBalance(userId));
-                System.err.println(amount);
-                System.err.println(newBalance);
                 bank.updateBalance(userId, newBalance);
             } catch (Exception e1) {
                 e1.printStackTrace();
@@ -275,7 +272,19 @@ public class main extends bank{
 
         entryButton.addActionListener(e ->{
             double amount = Double.parseDouble(entry.getText());
-            account obj = new account();
+            transaction obj = new transaction();
+            bank bank = new bank();
+            try{
+                double newBalance = obj.withdraw(bank.getBalance(userId), amount);
+                bank.updateBalance(userId, newBalance);
+            }catch (Exception e1){
+                e1.printStackTrace();
+            }
+            try {
+                JOptionPane.showMessageDialog(null, "Withdraw Successful New Balance: $"  + String.valueOf(bank.getBalance(userId)));
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
             
         });
 

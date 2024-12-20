@@ -1,3 +1,5 @@
+import javax.swing.JOptionPane;
+
 public class transaction {
     //Attributes: Transaction ID, date, type (deposit/withdrawal/transfer), amount, account number.
     //Methods: GenerateTransactionID(), PrintTransactionDetails().
@@ -13,6 +15,10 @@ public class transaction {
 
     public double withdraw(double balance, double amount){
         balance -= amount;
+        if(balance < 0){
+            JOptionPane.showMessageDialog(null, "Insufficient funds");
+            return balance + amount;
+        }
         return balance;
     }
 }
