@@ -70,7 +70,7 @@ public class main extends bank{
                     JOptionPane.showMessageDialog(null, "Login Successful");
                     cardLayout.show(cardsPanel, "Main Menu Screen");
 
-                    String userId = (checkUser.checkExistence(obj.loadArray(), username, password));
+                    userId = (checkUser.checkExistence(obj.loadArray(), username, password));
                     balance = obj.getBalance(userId);
 
                 }else{
@@ -234,13 +234,16 @@ public class main extends bank{
             transaction obj = new transaction();
             bank bank = new bank();
             try {
-                balance = obj.deposit(bank.getBalance(userId), amount);
-                bank.updateBalance(userId, balance);
+                double newBalance = obj.deposit(bank.getBalance(userId), amount);
+                System.out.println(bank.getBalance(userId));
+                System.err.println(amount);
+                System.err.println(newBalance);
+                bank.updateBalance(userId, newBalance);
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
             try {
-                JOptionPane.showMessageDialog(null, "Deposit Successful New Balance: "  + bank.getBalance(userId));
+                JOptionPane.showMessageDialog(null, "Deposit Successful New Balance: $"  + String.valueOf(bank.getBalance(userId)));
             } catch (Exception e1) {
                 e1.printStackTrace();
             }
@@ -273,7 +276,7 @@ public class main extends bank{
         entryButton.addActionListener(e ->{
             double amount = Double.parseDouble(entry.getText());
             account obj = new account();
-            //obj.withdraw(getUserId(), getBalance(), amount);
+            
         });
 
         JButton returntoMain = new JButton("Back to Main Menu");

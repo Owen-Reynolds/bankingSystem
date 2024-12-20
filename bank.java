@@ -68,7 +68,7 @@ public class bank {
     }
 
 
-    private void saveData(JSONArray array) {
+    public void saveData(JSONArray array) {
         try (PrintWriter pw = new PrintWriter("accounts.json")) {
             pw.println(array);
             System.out.println("Data successfully saved to accounts.json");
@@ -140,6 +140,7 @@ public class bank {
             JSONObject user = (JSONObject) obj;
             if(user.get("ID").equals(userId)){
                 user.put("balance", newBalance);
+                System.out.println(newBalance);
                 saveData(users);
             }
         }
