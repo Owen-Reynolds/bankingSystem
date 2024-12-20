@@ -71,7 +71,7 @@ public class main extends bank{
                     cardLayout.show(cardsPanel, "Main Menu Screen");
 
                     userId = (checkUser.checkExistence(obj.loadArray(), username, password));
-                    balance = obj.getBalance(userId);
+                    
 
                 }else{
                     JOptionPane.showMessageDialog(null, "Incorrect Login Information");
@@ -201,11 +201,18 @@ public class main extends bank{
     private static JPanel createBalancePanel() throws Exception{
         JPanel balancePanel = new JPanel();
 
-        bank obj = new bank();
+        bank bank = new bank();
 
-        JLabel title = new JLabel("Balance: " + obj.getBalance(userId));
-        //Process for showing Balance
+        JButton balanceButton = new JButton("Check Balance");
 
+        balanceButton.addActionListener(e ->{
+            try {
+                JOptionPane.showMessageDialog(null, "Current Balance: $" + String.valueOf(bank.getBalance(userId)));
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        });
+        
 
         JButton returntoMain = new JButton("Back to Main Menu");
 
@@ -213,7 +220,7 @@ public class main extends bank{
             cardLayout.show(cardsPanel, "Main Menu Screen");
         });
 
-        balancePanel.add(title);
+        balancePanel.add(balanceButton);
         balancePanel.add(returntoMain);
 
 
